@@ -7,15 +7,15 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
-import android.util.DisplayMetrics
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import java.util.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.allinonelibrary.utills.Constant
 import com.allinonelibrary.model.UserData
+import com.facebook.appevents.AppEventsLogger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -66,9 +66,10 @@ class FacebookLogin {
                             userData.accessToken = accessToken.token
                             userData.profilePic = profilePicUrl
 
-                            Log.e("Response", response.toString())
-                            val intent = Intent("FacebookLogin")
-                            intent.putExtra("USER_DATA", userData)
+                            //Log.e("Response", response.toString())
+                            val intent = Intent(Constant.SOCIAL_LOGIN)
+                            intent.putExtra(Constant.LOGIN_TYPE, Constant.LoginType.Facebook.name)
+                            intent.putExtra(Constant.USER_DATA, userData)
                             LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
 
                         }).executeAsync()
