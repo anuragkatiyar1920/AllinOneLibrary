@@ -39,7 +39,7 @@ Add maven in project level build.gradle file:
 5) Get keyhash from below method:
 
         facebook!!.printKeyHash(this)         
-6) Now Register Local BraodcastReciever in onCreate() method:
+6) Now Register Local BraodcastReciever from onCreate() method:
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, IntentFilter(Constant.SOCIAL_LOGIN))
         
@@ -55,7 +55,7 @@ Add maven in project level build.gradle file:
             }
         }
     }
-7)  Destroy Local Broadcast Reciever in onDestroy() method:
+7)  unregisterReceiver Local Broadcast Reciever from onDestroy() method:
 
           LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
 8) Add Meta-Data in menifest file:
