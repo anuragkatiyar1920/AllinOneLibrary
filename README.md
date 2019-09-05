@@ -10,21 +10,36 @@ Add maven in project level build.gradle file:
                 maven { url 'https://jitpack.io' }
             }
        }
-# For Facebook login follow the below steps:
-1) First create the App in https://developers.facebook.com/
-1) Intialze facebook object in onCreate() method:
+# For Facebook/Google login follow the below steps:
+1) For Facebook create the App in https://developers.facebook.com/ and for Google create app in https://console.firebase.google.com/ and download google-services.json and paste inside app folder
+
+1) Initialize global variable:
+
+           private var facebook: FacebookLogin? = null
+           private var googleLogin: GoogleLogin? = null
+           private var googleSignInCode = 7
+2) Intialze facebook/Google object in onCreate() method:
 
         facebook = FacebookLogin()
-2) Now login facebook from clickListener:
+        googleLogin = GoogleLogin()
+        googleLogin!!.initializeGoogleLogin(this, googleSignInCode)
+3) Now call facebookLogin() method from clickListener:
 
-        facebook!!.facebookLogin(this) 
-3) Now in onActivityResult() add below code:
+        facebook!!.facebookLogin(this)
+  Call googleLogin() method from clickListener
+  
+        googleLogin!!.googleLogin()
+4) Now in onActivityResult() add below code:
 
-        facebook!!.activityResult(requestCode, resultCode, data)  
-4) Get keyhash from below method:
+        if (requestCode == googleSignInCode) {
+            googleLogin!!.handleSignInResult(data)
+        } else {
+            facebook!!.activityResult(requestCode, resultCode, data)
+        }  
+5) Get keyhash from below method:
 
         facebook!!.printKeyHash(this)         
-5) Now Register Local BraodcastReciever in onCreate() method:
+6) Now Register Local BraodcastReciever in onCreate() method:
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, IntentFilter(Constant.SOCIAL_LOGIN))
         
@@ -35,14 +50,15 @@ Add maven in project level build.gradle file:
 
             if (loginType.equals(Constant.LoginType.Facebook.name)) {
                 //TODO("Do Work For Facebook")
+            } else if (loginType.equals(Constant.LoginType.Google.name)) {
+                //TODO("Do Work For Google")
             }
-            toastMessage!!.showToast(application, userData?.name.toString())
         }
     }
-6)  Destroy Local Broadcast Reciever in onDestroy() method:
+7)  Destroy Local Broadcast Reciever in onDestroy() method:
 
           LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
-7) Add Meta-Data in menifest file:
+8) Add Meta-Data in menifest file:
     
           <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
