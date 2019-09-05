@@ -53,8 +53,8 @@ Add maven in project level build.gradle file:
             } else if (loginType.equals(Constant.LoginType.Google.name)) {
                 //TODO("Do Work For Google")
             }
+          }
         }
-    }
 7)  unregisterReceiver Local Broadcast Reciever from onDestroy() method:
 
           LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
